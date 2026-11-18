@@ -1,5 +1,7 @@
 import { flash, type FlashType } from "amo-flash";
 
+import { SITE_URL } from "../content/snippets";
+
 const wait = (ms: number) => new Promise<void>((resolve) => window.setTimeout(resolve, ms));
 
 export type Demo = { id: string; label: string; type: FlashType; run: () => void };
@@ -50,7 +52,7 @@ export const DEMOS: Demo[] = [
           loading: { title: "Deploying to production", message: "Building and uploading assets" },
           success: () => ({
             title: `Deployed in ${((performance.now() - start) / 1000).toFixed(1)}s`,
-            message: "amo-flash.vercel.app is live",
+            message: `${SITE_URL.replace("https://", "")} is live`,
           }),
           error: "Deploy failed",
         })

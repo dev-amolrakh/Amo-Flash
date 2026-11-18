@@ -41,8 +41,17 @@ export function CyclingWord() {
     return () => window.clearInterval(handle);
   }, [reduced]);
 
+  // Measure the word, and measure again whenever its size changes (the web font loading in,
+  // the viewport resizing the headline), so the pill never clips the text.
   useLayoutEffect(() => {
-    if (measureRef.current) setWidth(measureRef.current.offsetWidth);
+    const el = measureRef.current;
+    if (!el) return;
+    const measure = () => setWidth(Math.ceil(el.getBoundingClientRect().width));
+    measure();
+    if (typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
   }, [index]);
 
   return (

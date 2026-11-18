@@ -7,6 +7,7 @@ import { Docs } from "./pages/Docs";
 import { Home } from "./pages/Home";
 import { NotFound } from "./pages/NotFound";
 import { Playground } from "./pages/Playground";
+import { SITE_URL } from "./content/snippets";
 import { usePath } from "./router";
 
 /** Settings changed in the Playground are remembered for the whole site. */
@@ -38,9 +39,19 @@ function useHeaderAwareOffset() {
   }, [top]);
 }
 
+/** Keep the canonical link and og:url on the live site's address for the current page. */
+function useCanonical(path: string) {
+  useEffect(() => {
+    const url = `${SITE_URL}${path}`;
+    document.querySelector('link[rel="canonical"]')?.setAttribute("href", url);
+    document.querySelector('meta[property="og:url"]')?.setAttribute("content", url);
+  }, [path]);
+}
+
 export function App() {
   const path = usePath();
   useHeaderAwareOffset();
+  useCanonical(path);
   return (
     <>
       <AmoFlash persist={SITE_PERSIST_KEY} />

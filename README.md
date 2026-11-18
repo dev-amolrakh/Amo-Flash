@@ -13,9 +13,11 @@ smart dedupe, one-pill promises and optional sound. Free for everyone, forever.
 [![bundle size](https://img.shields.io/bundlephobia/minzip/amo-flash?label=min%2Bgzip)](https://bundlephobia.com/package/amo-flash)
 [![license](https://img.shields.io/badge/license-MIT-6741d9)](LICENSE)
 [![CI](https://github.com/dev-amolrakh/Amo-Flash/actions/workflows/ci.yml/badge.svg)](https://github.com/dev-amolrakh/Amo-Flash/actions/workflows/ci.yml)
+[![website](https://img.shields.io/badge/live-amo--flash.vercel.app-111113)](https://amo-flash.vercel.app)
 
 [**Website & playground**](https://amo-flash.vercel.app) ·
 [Docs](https://amo-flash.vercel.app/docs) ·
+[Playground](https://amo-flash.vercel.app/playground) ·
 [npm](https://www.npmjs.com/package/amo-flash) ·
 [Changelog](CHANGELOG.md)
 
@@ -23,6 +25,8 @@ smart dedupe, one-pill promises and optional sound. Free for everyone, forever.
   <source media="(prefers-color-scheme: dark)" srcset=".github/assets/preview-dark.png" />
   <img src=".github/assets/preview-light.png" alt="The Amo Flash website: a dark pill-shaped flash message showing 'Deploying to production' below a floating header, next to a stack of example flashes." width="900" />
 </picture>
+
+**[Try it live → amo-flash.vercel.app](https://amo-flash.vercel.app)**
 
 </div>
 
@@ -275,6 +279,8 @@ npm run build       # library (dist/) + website (apps/website/dist)
 
 ### Deploy the website to Vercel
 
+The official site is live at **https://amo-flash.vercel.app**, deployed from `main`. To deploy your own copy:
+
 1. In Vercel, choose **Add New → Project** and import the repository.
 2. Set **Root Directory** to `apps/website`. Leave **Include files outside the root directory** turned on: the site builds from the library source in `packages/amo-flash`.
 3. `apps/website/vercel.json` sets the framework (Vite), the install command (`npm ci`, which installs the whole workspace), the build command (`npm run build`) and the output directory (`dist`). Leave the build and install overrides in the dashboard turned off.
@@ -290,7 +296,7 @@ npm publish --access public
 
 ## Contributing
 
-Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md).
+Issues and pull requests are welcome. Reproduce problems in the [Playground](https://amo-flash.vercel.app/playground) first if you can. See [CONTRIBUTING.md](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## License
 

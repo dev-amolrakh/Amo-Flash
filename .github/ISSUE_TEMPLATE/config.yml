@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
   - name: Documentation
-    url: https://github.com/dev-amolrakh/Amo-Flash#readme
+    url: https://amo-flash.vercel.app/docs
     about: Check the docs and the FAQ first.
+  - name: Playground
+    url: https://amo-flash.vercel.app/playground
+    about: Reproduce your setup with live options and copy the generated code.

@@ -3,6 +3,7 @@
   "private": true,
   "description": "Amo Flash — beautiful, framework-agnostic flash messages. Library + website monorepo.",
   "license": "MIT",
+  "homepage": "https://amo-flash.vercel.app",
   "author": "dev-amolrakh (https://github.com/dev-amolrakh)",
   "repository": {
     "type": "git",

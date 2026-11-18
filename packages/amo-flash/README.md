@@ -3,7 +3,7 @@
 **Flash messages, beautifully alive.** A tiny, framework-agnostic toast library: a pill that morphs into place, a
 countdown you can see, smart ×N dedupe, one-pill promises and built-in sound. Zero dependencies. MIT licensed.
 
-**[Website, docs & playground →](https://amo-flash.vercel.app)** · [GitHub](https://github.com/dev-amolrakh/Amo-Flash)
+**[Website →](https://amo-flash.vercel.app)** · [Docs](https://amo-flash.vercel.app/docs) · [Playground](https://amo-flash.vercel.app/playground) · [GitHub](https://github.com/dev-amolrakh/Amo-Flash)
 
 ```bash
 npm install amo-flash

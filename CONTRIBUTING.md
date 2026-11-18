@@ -1,6 +1,7 @@
 # Contributing to Amo Flash
 
 Thanks for helping make Amo Flash better. Bug reports, docs fixes and pull requests are all welcome.
+The live site is https://amo-flash.vercel.app; it redeploys automatically from `main`.
 
 ## Setup
 
