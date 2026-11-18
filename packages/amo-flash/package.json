@@ -1,7 +1,7 @@
 {
   "name": "amo-flash",
   "version": "1.0.0",
-  "description": "Beautiful, accessible flash messages (toasts) for any framework — a morphing pill with a live countdown, smart dedupe, promise states and optional sound. Zero dependencies.",
+  "description": "Beautiful, accessible flash messages (toasts) for any framework — a morphing pill with a live countdown, smart dedupe, promise states and built-in sound. Zero dependencies.",
   "keywords": [
     "toast",
     "toasts",
@@ -111,8 +111,8 @@
     "jsdom": "^26.1.0",
     "react": "^19.2.9",
     "react-dom": "^19.2.9",
-    "tsup": "^8.5.1",
+    "tsup": "^9.0.0",
     "typescript": "~5.9.3",
-    "vitest": "^3.2.7"
+    "vitest": "^5.1.1"
   }
 }

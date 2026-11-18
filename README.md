@@ -261,8 +261,8 @@ Amo-Flash/
 ├── packages/amo-flash/   # the library (npm: amo-flash)
 │   ├── src/              # core, DOM renderer, styles, sounds, React/Vue/Svelte adapters
 │   └── test/             # Vitest + jsdom
-├── apps/website/         # landing page, docs and playground (Vite + React)
-└── vercel.json           # website deployment
+└── apps/website/         # landing page, docs and playground (Vite + React)
+    └── vercel.json       # website deployment (Vercel Root Directory = apps/website)
 ```
 
 ```bash
@@ -275,9 +275,10 @@ npm run build       # library (dist/) + website (apps/website/dist)
 
 ### Deploy the website to Vercel
 
-1. Push this repository to GitHub.
-2. In Vercel, choose **Add New → Project** and import the repository. Keep the **root directory** as the repository root.
-3. `vercel.json` already sets the install command (`npm ci`), the build command (`npm run build:site`) and the output directory (`apps/website/dist`), so you can deploy without changing any settings.
+1. In Vercel, choose **Add New → Project** and import the repository.
+2. Set **Root Directory** to `apps/website`. Leave **Include files outside the root directory** turned on: the site builds from the library source in `packages/amo-flash`.
+3. `apps/website/vercel.json` sets the framework (Vite), the install command (`npm ci`, which installs the whole workspace), the build command (`npm run build`) and the output directory (`dist`). Leave the build and install overrides in the dashboard turned off.
+4. Use Node.js 22 or newer (Project → Settings → Build and Deployment → Node.js Version).
 
 ### Publish the library to npm
 

@@ -11,7 +11,7 @@ npm install
 npm run dev        # website + docs on http://localhost:5173, running on the library source
 ```
 
-Node 18.18 or newer is required (`.nvmrc` pins 22).
+Node 22.18 or newer is required for development (`.nvmrc` pins 22). The published package itself runs in any modern browser and has no Node requirement.
 
 ## Project layout
 
