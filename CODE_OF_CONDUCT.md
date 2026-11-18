@@ -6,5 +6,5 @@ In short: be kind, be patient, assume good intent, and keep discussions about th
 personal attacks are not tolerated in issues, pull requests or any other project space.
 
 To report unacceptable behaviour, open a private
-[security advisory](https://github.com/dev-amolrakh/amo-flash/security/advisories/new) or contact the maintainer
+[security advisory](https://github.com/dev-amolrakh/Amo-Flash/security/advisories/new) or contact the maintainer
 through their GitHub profile ([@dev-amolrakh](https://github.com/dev-amolrakh)). Reports are handled confidentially.

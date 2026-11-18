@@ -7,7 +7,7 @@ Security fixes are released for the latest `1.x` version.
 ## Reporting a vulnerability
 
 Please do **not** open a public issue. Use GitHub's private
-[security advisory form](https://github.com/dev-amolrakh/amo-flash/security/advisories/new) instead.
+[security advisory form](https://github.com/dev-amolrakh/Amo-Flash/security/advisories/new) instead.
 You should get a reply within a few days.
 
 ## Design notes

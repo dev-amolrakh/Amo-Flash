@@ -110,8 +110,13 @@ describe("flash API", () => {
     off();
   });
 
-  it("plays sounds only when enabled, and never for loading", () => {
-    flash.success("Silent by default");
+  it("plays sounds by default, never when switched off, and never for loading", () => {
+    flash.success("Ding by default");
+    expect(playSound).toHaveBeenCalledWith("chime", "success", DEFAULT_CONFIG.sound.volume);
+    vi.mocked(playSound).mockClear();
+
+    configure({ sound: { enabled: false } });
+    flash.success("Muted");
     expect(playSound).not.toHaveBeenCalled();
 
     configure({ sound: { enabled: true, pack: "pop" } });
@@ -122,6 +127,7 @@ describe("flash API", () => {
   });
 
   it("per-call sound override respects the global switch", () => {
+    configure({ sound: { enabled: false } });
     expect(shouldPlaySound("info", true)).toBe(false);
     configure({ sound: { enabled: true } });
     expect(shouldPlaySound("info", undefined)).toBe(false); // info is not in playFor by default
@@ -148,7 +154,7 @@ describe("config", () => {
     expect(config.position).toBe(DEFAULT_CONFIG.position);
     expect(config.maxVisible).toBe(10);
     expect(config.duration).toBe(1000);
-    expect(config.sound).toEqual({ enabled: false, pack: "chime", volume: 1, playFor: ["error"] });
+    expect(config.sound).toEqual({ enabled: true, pack: "chime", volume: 1, playFor: ["error"] });
     expect(config.background).toBeNull();
     expect("extra" in config).toBe(false);
   });

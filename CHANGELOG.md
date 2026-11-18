@@ -17,9 +17,9 @@ First public release.
 - Deck and list stacking, six positions, swipe to dismiss, Esc to dismiss.
 - `configure()` with validation, live updates and optional `persist` to localStorage.
 - Any background colour with automatic text contrast; `theme: "auto"` follows the page or OS.
-- Five synthesized sound packs (Web Audio, off by default).
+- Five synthesized sound packs (Web Audio, on by default, unlocked on the first user gesture incl. iOS Safari).
 - React (`<AmoFlash />`, `useFlash`, `useFlashConfig`, `useFlashes`), Vue (`createAmoFlash`) and Svelte (`initFlash`, stores) adapters.
 - IIFE build for `<script>` tags (`window.AmoFlash`), ESM and CJS builds, full TypeScript types.
 - Headless store (`createFlashStore`, `subscribe`, `getFlashes`) for custom renderers.
 
-[1.0.0]: https://github.com/dev-amolrakh/amo-flash/releases/tag/v1.0.0
+[1.0.0]: https://github.com/dev-amolrakh/Amo-Flash/releases/tag/v1.0.0

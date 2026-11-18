@@ -478,7 +478,7 @@ upload.on("done", () => flash.update(id, { type: "success", title: "Uploaded" })
             [
               c("sound"),
               c("{ enabled, pack, volume, playFor }"),
-              c("off, chime, 0.6"),
+              c("on, chime, 0.6"),
               <>
                 <a href="#sounds">Sounds</a>.
               </>,
@@ -584,8 +584,11 @@ configure({ position: "bottom-left", sound: { enabled: true } }); // remembered`
         <p>
           Five packs ({c("chime")}, {c("marimba")}, {c("pop")}, {c("bubble")}, {c("digital")}) are synthesized
           live with the Web Audio API, so no audio files are downloaded. Sound is{" "}
-          <strong>off by default</strong>. Browsers only allow audio after the first click or key press, so
-          sounds start after that. They never throw, and loading flashes never play.
+          <strong>on by default</strong> for success, error, warning and notification flashes. Browsers only
+          allow audio after the visitor's first click, tap or key press; Amo Flash unlocks audio on that first
+          gesture (including iOS Safari), so every flash after it can play. Sounds never throw, loading
+          flashes never play, and {c("sound: { enabled: false }")} mutes everything, which makes a good
+          user-facing mute switch.
         </p>
         <CodeBlock
           lang="ts"

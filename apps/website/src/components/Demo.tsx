@@ -91,69 +91,79 @@ const PREVIEW_GLYPH: Partial<Record<FlashType, string>> = {
   success: "M7.4 12.3l3.1 3.1l6.1-6.4",
   error: "M8.7 8.7l6.6 6.6M15.3 8.7l-6.6 6.6",
   info: "M12 11.2v5.3",
+  warning: "M12 7.4v5.4",
 };
 
-/** Static, decorative replica of the pill for the hero illustration. */
-export function PillPreview({ type, title, meta }: { type: FlashType; title: string; meta?: string }) {
+/** The duotone status badge used by the site's static and animated replicas (decorative). */
+export function PillBadge({ type }: { type: FlashType }) {
   const glyph = PREVIEW_GLYPH[type];
   return (
-    <div className="pill-preview" data-type={type} aria-hidden="true">
-      <span className="pp-badge">
-        <svg viewBox="0 0 24 24" width="24" height="24">
-          <circle cx="12" cy="12" r="11" className="pp-circle" />
-          <ellipse cx="12" cy="6.4" rx="7.2" ry="3.4" fill="#fff" opacity=".2" />
-          {glyph ? (
-            <path
-              d={glyph}
-              fill="none"
-              stroke="#fff"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          ) : null}
-          {type === "info" ? <circle cx="12" cy="7.9" r="1.45" fill="#fff" /> : null}
-          {type === "notification" ? (
-            <>
-              <path
-                d="M12 6.2a4.3 4.3 0 0 1 4.3 4.3v2.4l1.3 2.1H6.4l1.3-2.1v-2.4A4.3 4.3 0 0 1 12 6.2z"
-                fill="#fff"
-              />
-              <path
-                d="M10.4 16.9a1.7 1.7 0 0 0 3.2 0"
-                fill="none"
-                stroke="#fff"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-              />
-            </>
-          ) : null}
-          {type === "loading" ? (
-            <path
-              className="pp-spin"
-              d="M12 6.6a5.4 5.4 0 1 0 5.4 5.4"
-              fill="none"
-              stroke="#fff"
-              strokeWidth="2.4"
-              strokeLinecap="round"
-            />
-          ) : null}
-        </svg>
-      </span>
-      <span className="pp-title">{title}</span>
-      {meta ? <span className="pp-meta">{meta}</span> : null}
-      <span className="pp-close">
-        <svg viewBox="0 0 26 26" width="24" height="24">
-          <circle cx="13" cy="13" r="11.5" className="pp-ring-track" />
-          <circle cx="13" cy="13" r="11.5" className="pp-ring" pathLength={100} />
+    <span className="pp-badge" data-type={type}>
+      <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+        <ellipse cx="12" cy="6.4" rx="7.2" ry="3.4" fill="#fff" opacity=".2" />
+        {glyph ? (
           <path
-            d="M9.5 9.5l7 7M16.5 9.5l-7 7"
-            stroke="currentColor"
-            strokeWidth="1.8"
+            d={glyph}
+            fill="none"
+            stroke="#fff"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        ) : null}
+        {type === "info" ? <circle cx="12" cy="7.9" r="1.45" fill="#fff" /> : null}
+        {type === "warning" ? <circle cx="12" cy="16.4" r="1.45" fill="#fff" /> : null}
+        {type === "notification" ? (
+          <>
+            <path
+              d="M12 6.2a4.3 4.3 0 0 1 4.3 4.3v2.4l1.3 2.1H6.4l1.3-2.1v-2.4A4.3 4.3 0 0 1 12 6.2z"
+              fill="#fff"
+            />
+            <path
+              d="M10.4 16.9a1.7 1.7 0 0 0 3.2 0"
+              fill="none"
+              stroke="#fff"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+            />
+          </>
+        ) : null}
+        {type === "loading" ? (
+          <path
+            className="pp-spin"
+            d="M12 6.6a5.4 5.4 0 1 0 5.4 5.4"
+            fill="none"
+            stroke="#fff"
+            strokeWidth="2.4"
             strokeLinecap="round"
           />
-        </svg>
-      </span>
+        ) : null}
+      </svg>
+    </span>
+  );
+}
+
+/** The close button with its countdown ring (decorative). */
+export function PillClose({ ring = true }: { ring?: boolean }) {
+  return (
+    <span className="pp-close">
+      <svg viewBox="0 0 26 26" width="24" height="24" aria-hidden="true" focusable="false">
+        <circle cx="13" cy="13" r="11.5" className="pp-ring-track" />
+        {ring ? <circle cx="13" cy="13" r="11.5" className="pp-ring" pathLength={100} /> : null}
+        <path d="M9.5 9.5l7 7M16.5 9.5l-7 7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      </svg>
+    </span>
+  );
+}
+
+/** Static, decorative replica of the pill (used in the Docs menu card). */
+export function PillPreview({ type, title, meta }: { type: FlashType; title: string; meta?: string }) {
+  return (
+    <div className="pill-preview" data-type={type} aria-hidden="true">
+      <PillBadge type={type} />
+      <span className="pp-title">{title}</span>
+      {meta ? <span className="pp-meta">{meta}</span> : null}
+      <PillClose />
     </div>
   );
 }

@@ -5,8 +5,8 @@ Thanks for helping make Amo Flash better. Bug reports, docs fixes and pull reque
 ## Setup
 
 ```bash
-git clone https://github.com/dev-amolrakh/amo-flash.git
-cd amo-flash
+git clone https://github.com/dev-amolrakh/Amo-Flash.git
+cd Amo-Flash
 npm install
 npm run dev        # website + docs on http://localhost:5173, running on the library source
 ```

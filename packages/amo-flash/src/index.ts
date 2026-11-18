@@ -1,6 +1,6 @@
 /**
  * Amo Flash — beautiful, framework-agnostic flash messages.
- * https://github.com/dev-amolrakh/amo-flash · MIT
+ * https://github.com/dev-amolrakh/Amo-Flash · MIT
  */
 export {
   flash,
@@ -43,7 +43,7 @@ export {
 export { createFlashStore, REPEAT_WINDOW_MS, EXIT_MS, ACTION_DURATION_FACTOR } from "./store";
 export type { FlashStore, FlashState, StoreConfig, StoreDeps } from "./store";
 export { injectStyles, detectScheme } from "./dom/viewport";
-export { primeAudioOnGesture } from "./sounds";
+export { primeAudioOnGesture, isAudioUnlocked } from "./sounds";
 export type {
   FlashType,
   FlashSoundType,

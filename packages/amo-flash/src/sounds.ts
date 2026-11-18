@@ -163,20 +163,42 @@ function resumeContext(): void {
   }
 }
 
+/** iOS Safari only unlocks Web Audio once a sound has started inside a gesture: play one silent sample. */
+function playSilentSample(): void {
+  const ctx = getContext();
+  if (!ctx) return;
+  try {
+    const source = ctx.createBufferSource();
+    source.buffer = ctx.createBuffer(1, 1, 22050);
+    source.connect(ctx.destination);
+    source.start(0);
+  } catch {
+    // Not supported: the first real sound will try again.
+  }
+}
+
+const UNLOCK_EVENTS = ["pointerdown", "keydown", "touchend", "click"] as const;
+
+/** True once the browser has let the shared AudioContext run. */
+export function isAudioUnlocked(): boolean {
+  return context?.state === "running";
+}
+
 /**
- * Browsers only allow audio after a user gesture: resume (or create) the context on
- * the first pointer/key press. Safe to call many times.
+ * Browsers only allow audio after a user gesture. This resumes (or creates) the shared context
+ * on the first pointer, touch, click or key press, so the first flash after that can play.
+ * Safe to call many times.
  */
 export function primeAudioOnGesture(): void {
   if (gestureHooked || typeof window === "undefined") return;
   gestureHooked = true;
   const unlock = () => {
     resumeContext();
-    window.removeEventListener("pointerdown", unlock, true);
-    window.removeEventListener("keydown", unlock, true);
+    playSilentSample();
+    if (context?.state !== "running") return; // try again on the next gesture
+    for (const name of UNLOCK_EVENTS) window.removeEventListener(name, unlock, true);
   };
-  window.addEventListener("pointerdown", unlock, true);
-  window.addEventListener("keydown", unlock, true);
+  for (const name of UNLOCK_EVENTS) window.addEventListener(name, unlock, true);
 }
 
 function scheduleNote(ctx: AudioContext, out: AudioNode, spec: PackSpec, note: Note, start: number): void {

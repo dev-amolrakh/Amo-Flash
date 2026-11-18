@@ -1,10 +1,21 @@
+import { configure, flash } from "amo-flash";
+import { useFlashConfig } from "amo-flash/react";
 import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from "react";
 
 import { AUTHOR_URL, NPM_URL, REPO_URL } from "../content/snippets";
 import { Link, usePath } from "../router";
 import { useSiteTheme } from "../theme";
 import { PillPreview } from "./Demo";
-import { IconArrowRight, IconClose, IconGithub, IconMenu, IconMoon, IconSun } from "./Icons";
+import {
+  IconArrowRight,
+  IconClose,
+  IconGithub,
+  IconMenu,
+  IconMoon,
+  IconSun,
+  IconVolume,
+  IconVolumeOff,
+} from "./Icons";
 
 export function Logo() {
   const gradient = `logo-g-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
@@ -141,6 +152,31 @@ function DocsMenu({ onNavigate, id }: { onNavigate: () => void; id?: string }) {
   );
 }
 
+/* ---------- sound switch ---------- */
+
+function SoundToggle() {
+  const { sound } = useFlashConfig();
+  const toggle = () => {
+    const enabled = !sound.enabled;
+    configure({ sound: { enabled } });
+    // Turning sound on plays a sample right away (this click unlocks browser audio).
+    if (enabled) flash.success("Sound on", { dedupeKey: "sound-toggle", message: `Pack: ${sound.pack}` });
+    else flash.info("Sound off", { dedupeKey: "sound-toggle" });
+  };
+  return (
+    <button
+      type="button"
+      className="icon-btn"
+      onClick={toggle}
+      aria-pressed={sound.enabled}
+      aria-label={sound.enabled ? "Mute flash sounds" : "Turn on flash sounds"}
+      title={sound.enabled ? "Mute flash sounds" : "Turn on flash sounds"}
+    >
+      {sound.enabled ? <IconVolume /> : <IconVolumeOff />}
+    </button>
+  );
+}
+
 /* ---------- header ---------- */
 
 const CLOSE_DELAY_MS = 140;
@@ -264,6 +300,7 @@ export function Header() {
         </nav>
 
         <div className="header-actions">
+          <SoundToggle />
           <button
             type="button"
             className="icon-btn"
@@ -353,6 +390,7 @@ export function Footer() {
 export function Page({ children }: { children: ReactNode }) {
   return (
     <>
+      <div className="page-glow" aria-hidden="true" />
       <a className="skip-link" href="#main">
         Skip to content
       </a>

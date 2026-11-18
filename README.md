@@ -12,7 +12,7 @@ smart dedupe, one-pill promises and optional sound. Free for everyone, forever.
 [![npm](https://img.shields.io/npm/v/amo-flash?color=2b8a3e&label=npm)](https://www.npmjs.com/package/amo-flash)
 [![bundle size](https://img.shields.io/bundlephobia/minzip/amo-flash?label=min%2Bgzip)](https://bundlephobia.com/package/amo-flash)
 [![license](https://img.shields.io/badge/license-MIT-6741d9)](LICENSE)
-[![CI](https://github.com/dev-amolrakh/amo-flash/actions/workflows/ci.yml/badge.svg)](https://github.com/dev-amolrakh/amo-flash/actions/workflows/ci.yml)
+[![CI](https://github.com/dev-amolrakh/Amo-Flash/actions/workflows/ci.yml/badge.svg)](https://github.com/dev-amolrakh/Amo-Flash/actions/workflows/ci.yml)
 
 [**Website & playground**](https://amo-flash.vercel.app) ·
 [Docs](https://amo-flash.vercel.app/docs) ·
@@ -36,7 +36,7 @@ smart dedupe, one-pill promises and optional sound. Free for everyone, forever.
 - **Works everywhere.** A plain TypeScript and DOM core, React / Vue / Svelte helpers, an Angular recipe, and a `<script>` build. SSR-safe.
 - **Accessible.** Polite and assertive live regions, keyboard support, `Esc` to dismiss, labelled controls, and `prefers-reduced-motion`.
 - **Yours to style.** Any background colour with automatic text contrast, CSS variables, six positions, and deck or list stacking.
-- **Optional sound.** Five packs synthesized with Web Audio, so there are no audio files. Off by default.
+- **Sound built in.** Five packs synthesized with Web Audio, so there are no audio files. On by default, and one switch mutes them.
 - **Small.** About 13 kB gzipped for the script-tag build, CSS and sounds included. Zero dependencies.
 
 ## Install
@@ -222,7 +222,7 @@ export class FlashService {
 | `background`                                       | `null`         | Any `#rrggbb`; text flips to dark on light colours                                           |
 | `theme`                                            | `"auto"`       | `auto` follows `.dark` / `data-theme` on `<html>`, else the OS                               |
 | `offset` / `zIndex`                                | `16` / `9999`  | Distance from the edge (px) and stacking order                                               |
-| `sound`                                            | off            | `{ enabled, pack: "chime" \| "marimba" \| "pop" \| "bubble" \| "digital", volume, playFor }` |
+| `sound`                                            | on, `chime`    | `{ enabled, pack: "chime" \| "marimba" \| "pop" \| "bubble" \| "digital", volume, playFor }` |
 | `labels`                                           | English        | `{ region, dismiss, times }`, for translation                                                |
 | `persist`                                          | `false`        | localStorage key to remember end-user preferences                                            |
 | `injectStyles`                                     | `true`         | Set to `false` to import `amo-flash/style.css` yourself                                      |
@@ -257,7 +257,7 @@ until the first flash in the browser.
 ## This repository
 
 ```
-amo-flash/
+Amo-Flash/
 ├── packages/amo-flash/   # the library (npm: amo-flash)
 │   ├── src/              # core, DOM renderer, styles, sounds, React/Vue/Svelte adapters
 │   └── test/             # Vitest + jsdom

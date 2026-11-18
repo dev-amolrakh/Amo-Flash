@@ -6,7 +6,7 @@
   "author": "dev-amolrakh (https://github.com/dev-amolrakh)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dev-amolrakh/amo-flash.git"
+    "url": "git+https://github.com/dev-amolrakh/Amo-Flash.git"
   },
   "workspaces": [
     "packages/*",

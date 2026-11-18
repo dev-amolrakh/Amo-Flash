@@ -85,7 +85,7 @@ export const DEFAULT_CONFIG: Readonly<AmoFlashConfig> = Object.freeze({
   offset: 16,
   zIndex: 9999,
   sound: Object.freeze({
-    enabled: false,
+    enabled: true,
     pack: "chime",
     volume: 0.6,
     playFor: ["success", "error", "warning", "notification"],

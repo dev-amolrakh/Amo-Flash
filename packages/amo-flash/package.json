@@ -21,14 +21,14 @@
   ],
   "license": "MIT",
   "author": "dev-amolrakh (https://github.com/dev-amolrakh)",
-  "homepage": "https://github.com/dev-amolrakh/amo-flash#readme",
+  "homepage": "https://github.com/dev-amolrakh/Amo-Flash#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dev-amolrakh/amo-flash.git",
+    "url": "git+https://github.com/dev-amolrakh/Amo-Flash.git",
     "directory": "packages/amo-flash"
   },
   "bugs": {
-    "url": "https://github.com/dev-amolrakh/amo-flash/issues"
+    "url": "https://github.com/dev-amolrakh/Amo-Flash/issues"
   },
   "type": "module",
   "sideEffects": [

@@ -1,6 +1,6 @@
 import type { CodeLang } from "../lib/highlight";
 
-export const REPO_URL = "https://github.com/dev-amolrakh/amo-flash";
+export const REPO_URL = "https://github.com/dev-amolrakh/Amo-Flash";
 export const NPM_URL = "https://www.npmjs.com/package/amo-flash";
 export const AUTHOR_URL = "https://github.com/dev-amolrakh";
 

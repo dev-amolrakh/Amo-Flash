@@ -15,9 +15,10 @@ import { useFlashConfig } from "amo-flash/react";
 import { useEffect, type ReactNode } from "react";
 
 import { CodeBlock, CodeTabs, CopyButton } from "../components/CodeBlock";
-import { DEMOS, DemoButton, PillPreview } from "../components/Demo";
-import { IconArrowRight, IconGithub, IconSpark } from "../components/Icons";
-import { API_OVERVIEW, FRAMEWORKS, REPO_URL } from "../content/snippets";
+import { DEMOS, DemoButton } from "../components/Demo";
+import { CyclingWord, HeroDemo } from "../components/HeroDemo";
+import { IconArrowRight, IconSpark } from "../components/Icons";
+import { API_OVERVIEW, FRAMEWORKS } from "../content/snippets";
 import { Link, useTitle } from "../router";
 
 const SWATCHES: Array<{ label: string; value: string | null }> = [
@@ -108,54 +109,45 @@ export function Home() {
     <>
       {/* ---------- hero ---------- */}
       <section className="hero">
-        <div className="hero-glow" aria-hidden="true" />
-        <div className="container hero-inner">
-          <div className="hero-copy">
-            <p className="badge-line">
-              <span className="badge-dot" aria-hidden="true" /> v1.0 · MIT · zero dependencies
-            </p>
-            <h1 className="h1">
-              Flash messages,
-              <br />
-              <span className="gradient-text">beautifully alive.</span>
-            </h1>
-            <p className="lead">
-              Amo Flash is a tiny toast library for every framework. A pill that morphs into place, a
-              countdown you can see, smart dedupe, one-pill promises and optional sound. Free for everyone,
-              forever.
-            </p>
-            <div className="row">
-              <Link to="/docs" className="btn btn-primary">
-                Get started <IconArrowRight size={16} />
-              </Link>
-              <a className="btn btn-ghost" href={REPO_URL} target="_blank" rel="noreferrer">
-                <IconGithub size={16} /> Star on GitHub
-              </a>
-            </div>
-            <div className="install">
-              <span className="install-prompt" aria-hidden="true">
-                $
-              </span>
-              <code>npm i amo-flash</code>
-              <CopyButton text="npm i amo-flash" label="Copy install command" />
-            </div>
+        <div className="container hero-center">
+          <p className="badge-line">
+            <span className="badge-dot" aria-hidden="true" /> v1.0 · MIT · zero dependencies
+          </p>
+          <h1 className="h1 hero-title">
+            Flash messages
+            <br />
+            that feel <CyclingWord />
+          </h1>
+          <p className="lead">
+            A tiny toast library for every framework. A pill that morphs into place, a countdown you can see,
+            smart dedupe, one-pill promises and sound. Free for everyone, forever.
+          </p>
+          <div className="row center-row">
+            <Link to="/docs" className="btn btn-cta">
+              Get started <IconArrowRight size={16} />
+            </Link>
+            <Link to="/playground" className="btn btn-soft">
+              Open the Playground
+            </Link>
           </div>
+          <div className="install">
+            <span className="install-prompt" aria-hidden="true">
+              $
+            </span>
+            <code>npm i amo-flash</code>
+            <CopyButton text="npm i amo-flash" label="Copy install command" />
+          </div>
+        </div>
 
-          <div className="hero-art" aria-hidden="true">
-            <div className="art-stack">
-              <PillPreview type="notification" title="Ana mentioned you" meta="View" />
-              <PillPreview type="success" title="Changes saved" />
-              <PillPreview type="loading" title="Deploying to production" />
-              <PillPreview type="error" title="Payment failed" meta="×3" />
-            </div>
-          </div>
+        <div className="container hero-stage">
+          <HeroDemo />
         </div>
 
         <div className="container">
           <div className="demo-panel">
             <div className="demo-head">
               <IconSpark size={16} />
-              <span>Try it — every button fires a real flash</span>
+              <span>Your turn — every button fires a real flash, with sound</span>
             </div>
             <div className="demo-grid">
               {DEMOS.map((demo) => (
@@ -251,7 +243,7 @@ export function Home() {
 
             <Feature
               title="Sound, synthesized"
-              body="Five packs made with the Web Audio API. No audio files, off by default, never blocking."
+              body="Five packs made with the Web Audio API. No audio files, never blocking, one switch to mute."
             >
               <Chip active={!config.sound.enabled} onClick={() => setPack(null)}>
                 off
