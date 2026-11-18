@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Amo Flash — flash messages, beautifully alive</title>
+    <meta
+      name="description"
+      content="Amo Flash is a free, open-source flash message (toast) library for React, Vue, Svelte, Angular and plain JavaScript. A morphing pill with a live countdown, smart dedupe, promise states and optional sound. Zero dependencies."
+    />
+    <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0a0a0b" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Amo Flash — flash messages, beautifully alive" />
+    <meta
+      property="og:description"
+      content="A tiny, framework-agnostic toast library with a morphing pill, live countdown, smart dedupe and sound packs. Free and MIT licensed."
+    />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      // Apply the saved site theme before first paint (no flash of the wrong theme).
+      try {
+        var t = localStorage.getItem("amo-site-theme");
+        if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>Amo Flash's website needs JavaScript — it is a live demo of a JavaScript library.</noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+node_modules/
+dist/
+coverage/
+.vercel/
+.DS_Store
+Thumbs.db
+*.log
+*.tsbuildinfo
+.env
+.env.*
+.idea/
+.vscode/*
+!.vscode/extensions.json

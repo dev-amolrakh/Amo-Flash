@@ -1,0 +1,805 @@
+/*
+ * Amo Flash — the "Signal" pill.
+ * https://github.com/dev-amolrakh/amo-flash · MIT
+ *
+ * Plain CSS, no framework dependency. Every colour is an --af-* custom property on
+ * .af-viewport, so you can theme it from your own stylesheet:
+ *
+ *   .af-viewport { --af-surface: #0b1020; --af-action: #7dd3fc; }
+ *
+ * `configure({ background })` sets --af-surface inline; data-tone="light" then flips the
+ * text colours so a light background keeps a readable contrast ratio.
+ */
+
+.af-viewport {
+  /* surface */
+  --af-surface: #111113;
+  --af-surface-ring: rgba(255, 255, 255, 0.07);
+  --af-shadow: 0 14px 32px -12px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.16);
+  --af-text: #ffffff;
+  --af-text-dim: #a1a1aa;
+  --af-action: #91a7ff;
+  --af-action-hover: #bac8ff;
+  --af-close: rgba(255, 255, 255, 0.5);
+  --af-close-hover: #ffffff;
+  --af-close-hover-bg: rgba(255, 255, 255, 0.12);
+  --af-track: rgba(255, 255, 255, 0.1);
+  /* outer hairline: none on light pages, a faint edge on dark ones */
+  --af-outline: 0 0 0 0 transparent;
+  --af-font: inherit;
+
+  /* motion */
+  --af-spring: cubic-bezier(0.22, 1.15, 0.36, 1);
+  --af-stack-ease: cubic-bezier(0.21, 1.02, 0.73, 1);
+  --af-exit-ease: cubic-bezier(0.55, 0, 0.75, 0.2);
+  --af-capsule: inset(0 calc(50% - 20px) 0 calc(50% - 20px) round 20px);
+  --af-open: inset(-40px round 40px);
+
+  /* layout (offset + z-index come from configure(), the rest per position below) */
+  --af-offset: 16px;
+  --af-z: 9999;
+  --af-dir: 1;
+  --af-justify: center;
+  --af-origin: top center;
+  --af-sx: 0;
+  --af-sy: 1;
+
+  position: fixed;
+  z-index: var(--af-z);
+  box-sizing: border-box;
+  width: 384px;
+  max-width: calc(100vw - 24px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+  font-family: var(--af-font);
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  -webkit-font-smoothing: antialiased;
+  transition: height 0.45s var(--af-stack-ease);
+}
+
+.af-viewport *,
+.af-viewport *::before,
+.af-viewport *::after {
+  box-sizing: border-box;
+}
+
+.af-viewport[data-scheme="dark"] {
+  --af-surface: #1c1c21;
+  --af-surface-ring: rgba(255, 255, 255, 0.1);
+  /* a dark pill on a dark page: outer hairline + deeper shadow so it never blends in */
+  --af-outline: 0 0 0 1px rgba(255, 255, 255, 0.08);
+  --af-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.85), 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* light custom background: dark text for contrast */
+.af-viewport[data-tone="light"] {
+  --af-surface-ring: rgba(0, 0, 0, 0.14);
+  --af-text: #111113;
+  --af-text-dim: #4a4a52;
+  --af-action: #3048b8;
+  --af-action-hover: #1f3591;
+  --af-close: rgba(0, 0, 0, 0.55);
+  --af-close-hover: #111113;
+  --af-close-hover-bg: rgba(0, 0, 0, 0.08);
+  --af-track: rgba(0, 0, 0, 0.12);
+  --af-count: #111113;
+}
+.af-viewport[data-tone="light"][data-scheme="light"] {
+  --af-outline: 0 0 0 1px rgba(0, 0, 0, 0.06);
+  --af-shadow: 0 14px 32px -12px rgba(0, 0, 0, 0.28), 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.af-viewport[data-active="true"] {
+  pointer-events: auto;
+}
+
+/* positions */
+.af-pos-top-center {
+  top: var(--af-offset);
+  left: 50%;
+  transform: translateX(-50%);
+}
+.af-pos-top-left {
+  top: var(--af-offset);
+  left: var(--af-offset);
+  --af-justify: flex-start;
+  --af-origin: top left;
+  --af-sx: -1;
+  --af-sy: 0;
+}
+.af-pos-top-right {
+  top: var(--af-offset);
+  right: var(--af-offset);
+  --af-justify: flex-end;
+  --af-origin: top right;
+  --af-sx: 1;
+  --af-sy: 0;
+}
+.af-pos-bottom-center {
+  bottom: var(--af-offset);
+  left: 50%;
+  transform: translateX(-50%);
+  --af-dir: -1;
+  --af-origin: bottom center;
+  --af-sy: -1;
+}
+.af-pos-bottom-left {
+  bottom: var(--af-offset);
+  left: var(--af-offset);
+  --af-dir: -1;
+  --af-justify: flex-start;
+  --af-origin: bottom left;
+  --af-sx: -1;
+  --af-sy: 0;
+}
+.af-pos-bottom-right {
+  bottom: var(--af-offset);
+  right: var(--af-offset);
+  --af-dir: -1;
+  --af-justify: flex-end;
+  --af-origin: bottom right;
+  --af-sx: 1;
+  --af-sy: 0;
+}
+
+/* phones: full width with 12px gutters, centred content */
+@media (max-width: 699px) {
+  .af-viewport {
+    left: 12px;
+    right: 12px;
+    width: auto;
+    max-width: none;
+    transform: none;
+  }
+}
+
+/* one slot per flash: owns the stack transform */
+.af-slot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: var(--af-justify);
+  transform: translateY(var(--af-y, 0px)) scale(var(--af-scale, 1));
+  transform-origin: var(--af-origin);
+  transition:
+    transform 0.45s var(--af-stack-ease),
+    opacity 0.45s var(--af-stack-ease);
+  pointer-events: none;
+}
+.af-viewport:not(.af-bottom) .af-slot {
+  top: 0;
+}
+.af-viewport.af-bottom .af-slot {
+  bottom: 0;
+}
+.af-slot-hidden {
+  opacity: 0;
+}
+.af-slot-hidden .af-bump {
+  pointer-events: none;
+}
+
+.af-bump,
+.af-swipe {
+  display: flex;
+  max-width: 100%;
+  min-width: 0;
+  pointer-events: auto;
+}
+
+.af-swipe {
+  touch-action: pan-y;
+  transition:
+    transform 0.35s var(--af-stack-ease),
+    opacity 0.35s var(--af-stack-ease);
+}
+.af-swipe.af-dragging {
+  transition: none;
+  cursor: grabbing;
+}
+
+.af-bumping {
+  animation: af-bump 0.22s ease;
+}
+
+/* the Signal pill */
+.af-pill {
+  --af-accent: #748ffc;
+  --af-g1: #91a7ff;
+  --af-g2: #3b5bdb;
+
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: auto;
+  max-width: 100%;
+  min-height: 40px;
+  padding: 6px 8px 6px 6px;
+  border-radius: 20px;
+  background: var(--af-surface);
+  color: var(--af-text);
+  box-shadow:
+    inset 0 0 0 1px var(--af-surface-ring),
+    var(--af-outline),
+    var(--af-shadow);
+  transition:
+    border-radius 0.45s var(--af-spring),
+    min-width 0.45s var(--af-spring),
+    width 0.45s var(--af-stack-ease),
+    height 0.45s var(--af-stack-ease);
+}
+.af-pill.af-no-close {
+  padding-right: 18px;
+}
+
+.af-pill[data-type="success"] {
+  --af-accent: #51cf66;
+  --af-g1: #69db7c;
+  --af-g2: #2b8a3e;
+}
+.af-pill[data-type="error"] {
+  --af-accent: #ff6b6b;
+  --af-g1: #ff8787;
+  --af-g2: #e03131;
+}
+.af-pill[data-type="warning"] {
+  --af-accent: #fcc419;
+  --af-g1: #ffd43b;
+  --af-g2: #f08c00;
+}
+.af-pill[data-type="info"] {
+  --af-accent: #4dabf7;
+  --af-g1: #74c0fc;
+  --af-g2: #1971c2;
+}
+.af-pill[data-type="notification"] {
+  --af-accent: #9775fa;
+  --af-g1: #b197fc;
+  --af-g2: #6741d9;
+}
+.af-pill[data-type="loading"] {
+  --af-accent: #748ffc;
+  --af-g1: #91a7ff;
+  --af-g2: #3b5bdb;
+}
+
+.af-pill > .af-icon,
+.af-pill > .af-body,
+.af-pill > .af-close {
+  position: relative;
+  z-index: 1;
+  transition: opacity 0.2s ease;
+}
+
+/* collapsed-deck items behind the front */
+.af-behind {
+  overflow: hidden;
+}
+.af-behind > * {
+  opacity: 0;
+}
+
+/* icon */
+.af-icon {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+}
+.af-icon-inner {
+  position: relative;
+  display: block;
+  width: 26px;
+  height: 26px;
+}
+.af-badge {
+  display: block;
+  overflow: visible;
+}
+.af-g-top {
+  stop-color: var(--af-g1);
+}
+.af-g-bottom {
+  stop-color: var(--af-g2);
+}
+.af-ripple {
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--af-accent);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+.af-spinner {
+  transform-box: view-box;
+  transform-origin: 12px 12px;
+  animation: af-spin 0.8s linear infinite;
+}
+
+/* text */
+.af-body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid;
+  grid-template-rows: auto 0fr;
+  transition:
+    grid-template-rows 0.45s var(--af-spring),
+    opacity 0.2s ease;
+}
+.af-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.af-title {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 20px;
+  color: var(--af-text);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.af-count {
+  flex: none;
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 20px;
+  color: var(--af-count, var(--af-accent));
+  font-variant-numeric: tabular-nums;
+}
+.af-action {
+  flex: none;
+  margin: 0;
+  padding: 0 4px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 20px;
+  color: var(--af-action);
+  cursor: pointer;
+}
+.af-action:hover {
+  color: var(--af-action-hover);
+}
+.af-msg-wrap {
+  min-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.af-msg {
+  padding: 2px 0;
+  font-size: 12.5px;
+  line-height: 17px;
+  color: var(--af-text-dim);
+  overflow-wrap: anywhere;
+}
+
+/* hover-expand */
+.af-expandable:hover,
+.af-expandable:focus-within {
+  border-radius: 18px;
+  min-width: min(340px, 100%);
+}
+.af-expandable:hover .af-body,
+.af-expandable:focus-within .af-body {
+  grid-template-rows: auto 1fr;
+}
+.af-expandable:hover .af-msg-wrap,
+.af-expandable:focus-within .af-msg-wrap {
+  opacity: 1;
+}
+
+/* close */
+.af-close {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--af-close);
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+}
+.af-close:hover {
+  color: var(--af-close-hover);
+  background: var(--af-close-hover-bg);
+}
+.af-action:focus-visible,
+.af-close:focus-visible {
+  outline: 2px solid var(--af-action);
+  outline-offset: 2px;
+}
+
+/* countdown: SVG rings (close-button default, icon fallback) */
+.af-ring {
+  position: absolute;
+  overflow: visible;
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+.af-ring circle {
+  fill: none;
+}
+.af-ring-close {
+  inset: 0;
+}
+.af-ring-icon {
+  left: -4px;
+  top: -4px;
+  filter: drop-shadow(0 0 3px var(--af-accent));
+}
+.af-ring-track {
+  stroke: var(--af-track);
+  stroke-width: 2;
+}
+.af-ring-icon .af-ring-track,
+.af-ring-icon .af-ring-value {
+  stroke-width: 2.4;
+}
+.af-ring-value {
+  stroke: var(--af-accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 0;
+  animation-name: af-countdown-dash;
+}
+.af-countdown-anim {
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
+}
+
+/* countdown: on-pill placements */
+.af-cd {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+}
+.af-cd-outline {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.af-cd-outline-rect {
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+  fill: none;
+  stroke: var(--af-accent);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  animation-name: af-countdown-dash;
+}
+.af-cd-fill {
+  position: absolute;
+  background: var(--af-accent);
+  animation-name: af-countdown-shrink;
+}
+.af-cd-sweep .af-cd-fill {
+  inset: 0;
+  opacity: 0.16;
+  transform-origin: left center;
+}
+.af-cd-edge .af-cd-fill {
+  top: 0;
+  left: 16px;
+  right: 16px;
+  height: 2px;
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--af-accent);
+  transform-origin: center;
+}
+.af-cd-bar .af-cd-fill {
+  left: 14px;
+  right: 14px;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  transform-origin: left center;
+}
+
+/* entrance: morph (Tide island) */
+.af-enter-morph {
+  animation: af-morph-in 0.72s var(--af-spring) both;
+}
+.af-enter-drop {
+  animation: af-drop-in 0.82s var(--af-spring) both;
+}
+.af-enter-morph > *,
+.af-enter-drop > * {
+  animation: af-children-in 0.42s ease 0.22s both;
+}
+.af-enter-slide {
+  animation: af-slide-in 0.5s var(--af-stack-ease) both;
+}
+.af-enter-fade {
+  animation: af-fade-in 0.3s ease both;
+}
+
+.af-exit {
+  pointer-events: none;
+}
+.af-exit-morph,
+.af-exit-drop {
+  animation: af-morph-out 0.46s var(--af-exit-ease) both;
+}
+.af-exit-morph > *,
+.af-exit-drop > * {
+  animation: af-children-out 0.18s ease both;
+}
+.af-exit-slide {
+  animation: af-slide-out 0.36s var(--af-exit-ease) both;
+}
+.af-exit-fade {
+  animation: af-fade-out 0.3s ease both;
+}
+
+/* icon choreography (on create and on every update) */
+.af-fresh .af-badge {
+  animation: af-badge-pop 0.62s cubic-bezier(0.34, 1.7, 0.5, 1) 0.14s both;
+}
+.af-fresh .draw {
+  stroke-dasharray: 1;
+  animation: af-draw 0.42s cubic-bezier(0.65, 0, 0.35, 1) 0.42s both;
+}
+.af-fresh .af-dot {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: af-dot-in 0.3s cubic-bezier(0.34, 1.7, 0.5, 1) 0.55s both;
+}
+.af-fresh .af-ripple {
+  animation: af-ripple 0.9s ease-out 0.4s forwards;
+}
+.af-pill[data-type="error"] .af-fresh {
+  animation: af-shake 0.42s ease 0.62s;
+}
+.af-pill[data-type="warning"] .af-fresh {
+  animation: af-nudge 0.5s ease 0.6s;
+}
+
+@keyframes af-morph-in {
+  0% {
+    clip-path: var(--af-capsule);
+    opacity: 0;
+    transform: translateY(calc(var(--af-dir) * -12px)) scale(0.9);
+  }
+  18% {
+    opacity: 1;
+  }
+  100% {
+    clip-path: var(--af-open);
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes af-drop-in {
+  0% {
+    clip-path: var(--af-capsule);
+    opacity: 0;
+    transform: translateY(calc(var(--af-dir) * -40px)) scale(0.75);
+  }
+  18% {
+    opacity: 1;
+  }
+  55% {
+    transform: translateY(calc(var(--af-dir) * 4px)) scale(1);
+  }
+  100% {
+    clip-path: var(--af-open);
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes af-morph-out {
+  0% {
+    clip-path: var(--af-open);
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    clip-path: var(--af-capsule);
+    opacity: 0;
+    transform: translateY(calc(var(--af-dir) * -12px)) scale(0.88);
+  }
+}
+@keyframes af-children-in {
+  from {
+    opacity: 0;
+    filter: blur(5px);
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
+@keyframes af-children-out {
+  to {
+    opacity: 0;
+    filter: blur(5px);
+  }
+}
+@keyframes af-slide-in {
+  from {
+    opacity: 0;
+    transform: translate(calc(var(--af-sx) * 110%), calc(var(--af-sy) * -150%));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes af-slide-out {
+  to {
+    opacity: 0;
+    transform: translate(calc(var(--af-sx) * 110%), calc(var(--af-sy) * -150%));
+  }
+}
+@keyframes af-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes af-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes af-bump {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}
+@keyframes af-badge-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.2) rotate(-45deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes af-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes af-dot-in {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes af-ripple {
+  from {
+    opacity: 0.8;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.9);
+  }
+}
+@keyframes af-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-2.5px);
+  }
+  40%,
+  80% {
+    transform: translateX(2.5px);
+  }
+}
+@keyframes af-nudge {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  35% {
+    transform: rotate(-10deg);
+  }
+  70% {
+    transform: rotate(7deg);
+  }
+}
+@keyframes af-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes af-countdown-dash {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+@keyframes af-countdown-shrink {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+/* reduced motion: plain fade, no choreography, no stack/expand animation */
+@media (prefers-reduced-motion: reduce) {
+  .af-enter {
+    animation: af-fade-in 0.2s ease both !important;
+  }
+  .af-exit {
+    animation: af-fade-out 0.2s ease both !important;
+  }
+  .af-enter > *,
+  .af-exit > *,
+  .af-fresh,
+  .af-fresh .af-badge,
+  .af-fresh .draw,
+  .af-fresh .af-dot,
+  .af-fresh .af-ripple,
+  .af-bumping {
+    animation: none !important;
+  }
+  .af-fresh .draw {
+    stroke-dasharray: none;
+  }
+  .af-viewport,
+  .af-slot,
+  .af-swipe,
+  .af-pill,
+  .af-body,
+  .af-msg-wrap {
+    transition-duration: 0.01ms !important;
+  }
+}

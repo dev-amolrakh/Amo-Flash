@@ -1,0 +1,32 @@
+{
+  "name": "amo-flash-monorepo",
+  "private": true,
+  "description": "Amo Flash — beautiful, framework-agnostic flash messages. Library + website monorepo.",
+  "license": "MIT",
+  "author": "dev-amolrakh (https://github.com/dev-amolrakh)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dev-amolrakh/amo-flash.git"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @amo-flash/website",
+    "build": "npm run build -w amo-flash && npm run build -w @amo-flash/website",
+    "build:lib": "npm run build -w amo-flash",
+    "build:site": "npm run build -w @amo-flash/website",
+    "preview": "npm run preview -w @amo-flash/website",
+    "test": "npm run test -w amo-flash",
+    "typecheck": "npm run typecheck -w amo-flash && npm run typecheck -w @amo-flash/website",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2"
+  },
+  "engines": {
+    "node": ">=18.18"
+  }
+}

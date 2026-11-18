@@ -1,0 +1,27 @@
+{
+  "name": "@amo-flash/website",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Landing page, docs and playground for Amo Flash.",
+  "license": "MIT",
+  "author": "dev-amolrakh (https://github.com/dev-amolrakh)",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -p tsconfig.json --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "amo-flash": "*",
+    "react": "^19.2.9",
+    "react-dom": "^19.2.9"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^5.0.4",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.12"
+  }
+}
